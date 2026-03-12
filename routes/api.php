@@ -29,6 +29,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // Zona Gestor (Mínimo rol 'gestor')
     Route::middleware(['role:gestor'])->prefix('gestor')->group(function () {
+        Route::get('/tickets/count-open', [GestorTicketController::class, 'countOpen']);
         // CRUD Eventos
         Route::get('/eventos', [GestorEventoController::class, 'index']);
         Route::post('/eventos', [GestorEventoController::class, 'store']);
@@ -43,6 +44,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // Zona Admin (Mínimo rol 'administrador')
     Route::middleware(['role:administrador'])->prefix('admin')->group(function () {
+        Route::get('/tickets/count-open', [AdminTicketController::class, 'countOpen']);
         // CRUD Usuarios
         Route::get('/usuarios', [AdminUsuarioController::class, 'index']);
         Route::post('/usuarios', [AdminUsuarioController::class, 'store']);

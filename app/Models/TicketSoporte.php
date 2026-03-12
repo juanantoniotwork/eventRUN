@@ -27,4 +27,12 @@ class TicketSoporte extends Model
     {
         return $this->belongsTo(Evento::class);
     }
+
+    /**
+     * Scope a query to only include open tickets.
+     */
+    public function scopeOpen($query)
+    {
+        return $query->where('estado', 'abierto');
+    }
 }

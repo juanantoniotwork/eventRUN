@@ -4,24 +4,30 @@ namespace App\Http\Controllers\Api\Public;
 
 use App\Http\Controllers\Controller;
 use App\Models\Evento;
-use Illuminate\Http\Request;
+use App\Http\Resources\EventoResource;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class EventoPublicoController extends Controller
 {
-    public function index()
+    /**
+     * Display a listing of public events.
+     */
+    public function index(): AnonymousResourceCollection
     {
         $eventos = Evento::publicados()
-            ->select('id', 'nombre', 'fecha', 'imagen')
             ->orderBy('fecha', 'asc')
             ->get();
 
-        return response()->json($eventos);
+        return EventoResource::collection($eventos);
     }
 
-    public function show($id)
+    /**
+     * Display the specified public event.
+     */
+    public function show(int $id): EventoResource
     {
         $evento = Evento::publicados()->findOrFail($id);
 
-        return response()->json($evento);
+        return new EventoResource($evento);
     }
 }

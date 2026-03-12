@@ -7,6 +7,14 @@ use App\Http\Controllers\Web\Admin\AdminTicketWebController;
 use App\Http\Controllers\Web\Gestor\GestorTicketWebController;
 use Illuminate\Support\Facades\Route;
 
+// Cambio de idioma
+Route::get('/lang/{locale}', function ($locale) {
+    if (in_array($locale, ['es', 'en'])) {
+        session()->put('locale', $locale);
+    }
+    return redirect()->back();
+})->name('lang.switch');
+
 // Rutas Públicas (Puerto 8000)
 Route::middleware(['restrictPort:public'])->group(function () {
     Route::get('/', [EventoWebController::class, 'index'])->name('eventos.index');

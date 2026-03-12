@@ -18,11 +18,17 @@ class Evento extends Model
     protected $fillable = [
         'user_id',
         'nombre',
+        'nombre_en',
         'descripcion',
+        'descripcion_en',
         'fecha',
         'imagen',
         'estado',
         'reglamento',
+        'reglamento_en',
+        'ubicacion',
+        'latitud',
+        'longitud',
     ];
 
     protected $casts = [

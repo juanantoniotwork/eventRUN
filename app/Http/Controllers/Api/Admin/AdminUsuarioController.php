@@ -5,17 +5,26 @@ namespace App\Http\Controllers\Api\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
 use App\Models\User;
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Hash;
 
 class AdminUsuarioController extends Controller
 {
-    public function index()
+    /**
+     * Display a listing of all users.
+     */
+    public function index(): AnonymousResourceCollection
     {
-        return response()->json(User::all());
+        return UserResource::collection(User::all());
     }
 
-    public function store(StoreUserRequest $request)
+    /**
+     * Store a newly created user in storage.
+     */
+    public function store(StoreUserRequest $request): UserResource
     {
         $user = User::create([
             'name' => $request->name,
@@ -24,10 +33,13 @@ class AdminUsuarioController extends Controller
             'role' => $request->role,
         ]);
 
-        return response()->json($user, 201);
+        return new UserResource($user);
     }
 
-    public function update(StoreUserRequest $request, $id)
+    /**
+     * Update the specified user in storage.
+     */
+    public function update(StoreUserRequest $request, int $id): UserResource
     {
         $user = User::findOrFail($id);
         
@@ -38,10 +50,13 @@ class AdminUsuarioController extends Controller
 
         $user->update($data);
 
-        return response()->json($user);
+        return new UserResource($user);
     }
 
-    public function destroy(Request $request, $id)
+    /**
+     * Remove the specified user from storage.
+     */
+    public function destroy(Request $request, int $id): JsonResponse
     {
         $user = User::findOrFail($id);
 

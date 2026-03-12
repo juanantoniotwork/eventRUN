@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
-    <h1 class="text-3xl font-bold text-gray-800">Próximos Eventos</h1>
+    <h1 class="text-3xl font-bold text-gray-800">{{ __('messages.upcoming_events') }}</h1>
     
     <!-- Buscador Real-Time -->
     <div class="mt-4 md:mt-0 w-full md:w-72 relative">
@@ -11,14 +11,14 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
             </svg>
         </div>
-        <input type="text" id="event-search" placeholder="Buscar carrera..." 
+        <input type="text" id="event-search" placeholder="{{ __('messages.search_race') }}" 
             class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-xl leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-all shadow-sm">
     </div>
 </div>
 
 @if($eventos->isEmpty())
     <div class="bg-white p-6 rounded-lg shadow-md text-center">
-        <p class="text-gray-600">No hay eventos disponibles en este momento.</p>
+        <p class="text-gray-600">{{ __('messages.no_events') }}</p>
     </div>
 @else
     <div id="events-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -31,7 +31,7 @@
                     <p class="text-gray-500 mb-4">{{ $evento->fecha->format('d/m/Y H:i') }}</p>
                     <div class="flex flex-wrap gap-2">
                         <a href="{{ url('/eventos/' . $evento->id) }}" class="flex-1 text-center bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition font-bold">
-                            Ver Detalles
+                            {{ __('messages.view_details') }}
                         </a>
                     </div>
                 </div>
@@ -46,7 +46,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 9.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
             </svg>
         </div>
-        <p class="text-gray-500 font-medium">No se han encontrado carreras que coincidan con tu búsqueda.</p>
+        <p class="text-gray-500 font-medium">{{ __('messages.no_results') }}</p>
     </div>
 @endif
 

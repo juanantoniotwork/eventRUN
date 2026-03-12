@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use App\Models\Evento;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 
 use Barryvdh\DomPDF\Facade\Pdf;
 
@@ -35,6 +36,10 @@ class EventoWebController extends Controller
         }
 
         $pdf = Pdf::loadView('pdf.reglamento', compact('evento'));
-        return $pdf->download('Reglamento_' . str_replace(' ', '_', $evento->nombre) . '.pdf');
+        
+        $filename = (App::getLocale() === 'es' ? 'Reglamento_' : 'Rules_') . 
+                    str_replace(' ', '_', $evento->nombre) . '.pdf';
+
+        return $pdf->download($filename);
     }
 }

@@ -56,4 +56,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Evento::class);
     }
+
+    /**
+     * Get all tickets for the events owned by the user.
+     */
+    public function tickets(): \Illuminate\Database\Eloquent\Relations\HasManyThrough
+    {
+        return $this->hasManyThrough(TicketSoporte::class, Evento::class);
+    }
 }

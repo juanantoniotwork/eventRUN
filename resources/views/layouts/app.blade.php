@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EventRUN!</title>
+    <title>{{ __('messages.welcome') }}</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gradient-to-br from-blue-50 via-white to-blue-100 min-h-screen flex flex-col text-slate-800">
@@ -23,18 +23,34 @@
                 <div class="hidden md:flex items-center space-x-1">
                     @auth
                         @if(Auth::user()->role === 'administrador')
-                            <a href="{{ url('/admin/usuarios') }}" class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-600 hover:text-blue-600 hover:bg-blue-50 transition-all">Gestión Usuarios</a>
-                            <a href="{{ url('/admin/tickets') }}" class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-600 hover:text-blue-600 hover:bg-blue-50 transition-all">Gestión Tickets</a>
-                            <a href="{{ route('gestor.eventos.index') }}" class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-600 hover:text-blue-600 hover:bg-blue-50 transition-all">Gestión Carreras</a>
+                            <a href="{{ url('/admin/usuarios') }}" class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-600 hover:text-blue-600 hover:bg-blue-50 transition-all">{{ __('messages.user_management') }}</a>
+                            <a href="{{ url('/admin/tickets') }}" class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-600 hover:text-blue-600 hover:bg-blue-50 transition-all flex items-center gap-2">
+                                {{ __('messages.ticket_management') }}
+                                <span class="ticket-badge-count hidden bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">0</span>
+                            </a>
+                            <a href="{{ route('gestor.eventos.index') }}" class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-600 hover:text-blue-600 hover:bg-blue-50 transition-all">{{ __('messages.race_management') }}</a>
                         @elseif(Auth::user()->role === 'gestor')
-                            <a href="{{ url('/gestor/eventos') }}" class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-600 hover:text-blue-600 hover:bg-blue-50 transition-all">Mis Eventos</a>
-                            <a href="{{ url('/gestor/tickets') }}" class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-600 hover:text-blue-600 hover:bg-blue-50 transition-all">Soporte</a>
+                            <a href="{{ url('/gestor/eventos') }}" class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-600 hover:text-blue-600 hover:bg-blue-50 transition-all">{{ __('messages.my_events') }}</a>
+                            <a href="{{ url('/gestor/tickets') }}" class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-600 hover:text-blue-600 hover:bg-blue-50 transition-all flex items-center gap-2">
+                                {{ __('messages.support') }}
+                                <span class="ticket-badge-count hidden bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">0</span>
+                            </a>
                         @endif
                     @endauth
                 </div>
             </div>
 
             <div class="flex items-center gap-4">
+                <!-- Language Selector -->
+                <div class="flex items-center gap-2 mr-4 border-r border-slate-200 pr-4">
+                    <a href="{{ route('lang.switch', 'es') }}" class="hover:opacity-80 transition-opacity {{ App::getLocale() == 'es' ? 'ring-2 ring-blue-500 rounded-full' : '' }}">
+                        <img src="https://flagcdn.com/w20/es.png" srcset="https://flagcdn.com/w40/es.png 2x" width="20" alt="Español">
+                    </a>
+                    <a href="{{ route('lang.switch', 'en') }}" class="hover:opacity-80 transition-opacity {{ App::getLocale() == 'en' ? 'ring-2 ring-blue-500 rounded-full' : '' }}">
+                        <img src="https://flagcdn.com/w20/gb.png" srcset="https://flagcdn.com/w40/gb.png 2x" width="20" alt="English">
+                    </a>
+                </div>
+
                 @auth
                     <div class="flex items-center gap-3 pl-6 border-l border-slate-200">
                         <div class="text-right hidden sm:block">
@@ -43,11 +59,14 @@
                         </div>
                         <form action="{{ url('/logout') }}" method="POST" class="inline">
                             @csrf
-                            <button type="submit" class="bg-slate-900 hover:bg-slate-800 text-white px-4 py-2 rounded-lg text-xs font-bold transition-all shadow-sm">Cerrar Sesión</button>
+                            <button type="submit" class="bg-slate-900 hover:bg-slate-800 text-white px-4 py-2 rounded-lg text-xs font-bold transition-all shadow-sm">{{ __('messages.logout') }}</button>
                         </form>
                     </div>
                 @else
-                    <a href="{{ url('/') }}" class="text-sm font-bold text-slate-600 hover:text-blue-600 mr-2 transition-colors">Explorar</a>
+                    <a href="{{ url('/') }}" class="text-sm font-bold text-slate-600 hover:text-blue-600 mr-2 transition-colors">{{ __('messages.explore') }}</a>
+                    @if(request()->getHost() === '127.0.0.1' && request()->getPort() === 8080)
+                        <a href="{{ route('login') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-xs font-bold transition-all shadow-sm">{{ __('messages.login') }}</a>
+                    @endif
                 @endauth
             </div>
         </div>
@@ -70,41 +89,41 @@
                         <span class="text-xl font-bold tracking-tight text-slate-900">EventRUN!</span>
                     </div>
                     <p class="text-sm leading-relaxed text-slate-500">
-                        Infraestructura avanzada para la gestión y monitorización de carreras y maratones a nivel global.
+                        {{ __('messages.footer_desc') }}
                     </p>
                 </div>
 
                 <div>
-                    <h4 class="text-slate-900 font-bold text-xs uppercase tracking-widest mb-6">Plataforma</h4>
+                    <h4 class="text-slate-900 font-bold text-xs uppercase tracking-widest mb-6">{{ __('messages.platform') }}</h4>
                     <ul class="space-y-4 text-sm font-medium text-slate-500">
-                        <li><a href="{{ url('/') }}" class="hover:text-blue-600 transition-colors">Carreras Activas</a></li>
+                        <li><a href="{{ url('/') }}" class="hover:text-blue-600 transition-colors">{{ __('messages.active_races_link') }}</a></li>
                         @auth
                             @if(Auth::user()->role === 'gestor')
-                                <li><a href="{{ url('/gestor/eventos') }}" class="hover:text-blue-600 transition-colors">Consola de Control</a></li>
+                                <li><a href="{{ url('/gestor/eventos') }}" class="hover:text-blue-600 transition-colors">{{ __('messages.control_console') }}</a></li>
                             @endif
                         @endauth
                     </ul>
                 </div>
 
                 <div>
-                    <h4 class="text-slate-900 font-bold text-xs uppercase tracking-widest mb-6">Recursos</h4>
+                    <h4 class="text-slate-900 font-bold text-xs uppercase tracking-widest mb-6">{{ __('messages.resources') }}</h4>
                     <ul class="space-y-4 text-sm font-medium text-slate-500">
-                        <li><a href="{{ route('how-it-works') }}" class="hover:text-blue-600 transition-colors text-blue-600">Centro de Aprendizaje</a></li>
-                        <li><a href="{{ route('help-center') }}" class="hover:text-blue-600 transition-colors">Documentación de Usuario</a></li>
+                        <li><a href="{{ route('how-it-works') }}" class="hover:text-blue-600 transition-colors text-blue-600">{{ __('messages.learning_center_link') }}</a></li>
+                        <li><a href="{{ route('help-center') }}" class="hover:text-blue-600 transition-colors">{{ __('messages.user_docs_link') }}</a></li>
                     </ul>
                 </div>
 
                 <div>
-                    <h4 class="text-slate-900 font-bold text-xs uppercase tracking-widest mb-6">Soporte Global</h4>
+                    <h4 class="text-slate-900 font-bold text-xs uppercase tracking-widest mb-6">{{ __('messages.global_support') }}</h4>
                     <div class="bg-blue-50 rounded-xl p-4 border border-blue-100">
                         <div class="flex items-center gap-3 mb-2">
                             <span class="relative flex h-2 w-2">
                                 <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                                 <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
                             </span>
-                            <span class="text-xs font-bold text-blue-900 uppercase tracking-tighter">Sistemas Operativos</span>
+                            <span class="text-xs font-bold text-blue-900 uppercase tracking-tighter">{{ __('messages.os_status') }}</span>
                         </div>
-                        <p class="text-[11px] text-blue-700 leading-tight">Monitorización activa 24/7 para corredores y gestores.</p>
+                        <p class="text-[11px] text-blue-700 leading-tight">{{ __('messages.os_desc') }}</p>
                     </div>
                 </div>
             </div>
@@ -112,13 +131,53 @@
             <div class="border-t border-slate-100 pt-8 flex flex-col md:flex-row justify-between items-center text-[11px] font-bold text-slate-400 uppercase tracking-widest">
                 <p>&copy; 2026 EventRUN! Tech Stack. v1.2.4-lts</p>
                 <div class="mt-4 md:mt-0 flex space-x-6">
-                    <a href="#" class="hover:text-blue-600 transition-colors">Términos de Servicio</a>
-                    <a href="#" class="hover:text-blue-600 transition-colors">Política de Privacidad</a>
+                    <a href="#" class="hover:text-blue-600 transition-colors">{{ __('messages.terms_service') }}</a>
+                    <a href="#" class="hover:text-blue-600 transition-colors">{{ __('messages.privacy_policy') }}</a>
                 </div>
             </div>
         </div>
     </footer>
 
     @stack('scripts')
+    
+    @auth
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const badges = document.querySelectorAll('.ticket-badge-count');
+            if (badges.length === 0) return;
+
+            const role = "{{ Auth::user()->role }}";
+            const endpoint = role === 'administrador' ? '/api/admin/tickets/count-open' : '/api/gestor/tickets/count-open';
+
+            async function updateBadge() {
+                try {
+                    const response = await fetch(endpoint, {
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    });
+                    if (response.ok) {
+                        const data = await response.json();
+                        badges.forEach(badge => {
+                            if (data.count > 0) {
+                                badge.textContent = data.count;
+                                badge.classList.remove('hidden');
+                                badge.style.display = 'inline-flex';
+                            } else {
+                                badge.classList.add('hidden');
+                                badge.style.display = 'none';
+                            }
+                        });
+                    }
+                } catch (error) {
+                    console.error('Error actualizando badge:', error);
+                }
+            }
+
+            updateBadge();
+            setInterval(updateBadge, 60000);
+        });
+    </script>
+    @endauth
 </body>
 </html>
