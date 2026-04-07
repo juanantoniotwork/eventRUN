@@ -23,7 +23,19 @@ export const translations = {
         info_title: "Información Clave",
         info_date: "Fecha y Hora",
         info_location: "Ubicación",
-        footer_copy: "© 2026 EventRUN! Platform • La vanguardia en eventos deportivos"
+        footer_copy: "© 2026 EventRUN! Platform • La vanguardia en eventos deportivos",
+        footer_desc: "La plataforma líder en gestión y participación de eventos de running y carreras populares.",
+        footer_platform: "Plataforma",
+        footer_races: "Carreras activas",
+        footer_how: "Cómo funciona",
+        footer_resources: "Recursos",
+        footer_learning: "Centro de Aprendizaje",
+        footer_docs: "Documentación de usuario",
+        footer_support: "Soporte Global",
+        footer_status: "Sistemas Operativos",
+        footer_status_desc: "Todos los servicios funcionando con normalidad.",
+        footer_terms: "Términos de servicio",
+        footer_privacy: "Política de privacidad"
     },
     en: {
         title: "EventRUN!",
@@ -49,6 +61,18 @@ export const translations = {
         info_title: "Key Information",
         info_date: "Date and Time",
         info_location: "Location",
-        footer_copy: "© 2026 EventRUN! Platform • The vanguard of sporting events"
+        footer_copy: "© 2026 EventRUN! Platform • The vanguard of sporting events",
+        footer_desc: "The leading platform for managing and participating in running and popular race events.",
+        footer_platform: "Platform",
+        footer_races: "Active races",
+        footer_how: "How it works",
+        footer_resources: "Resources",
+        footer_learning: "Learning Center",
+        footer_docs: "User Documentation",
+        footer_support: "Global Support",
+        footer_status: "Systems Operational",
+        footer_status_desc: "All services running normally.",
+        footer_terms: "Terms of Service",
+        footer_privacy: "Privacy Policy"
     }
 };

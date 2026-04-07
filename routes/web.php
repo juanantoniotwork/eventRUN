@@ -2,9 +2,11 @@
 
 use App\Http\Controllers\Web\EventoWebController;
 use App\Http\Controllers\Web\AuthController;
+use App\Http\Controllers\Web\PublicTicketController;
 use App\Http\Controllers\Web\Admin\AdminUsuarioWebController;
 use App\Http\Controllers\Web\Admin\AdminTicketWebController;
 use App\Http\Controllers\Web\Gestor\GestorTicketWebController;
+use App\Models\Evento;
 use Illuminate\Support\Facades\Route;
 
 // Cambio de idioma
@@ -24,8 +26,12 @@ Route::middleware(['restrictPort:public'])->group(function () {
         return view('pages.how-it-works');
     })->name('how-it-works');
     Route::get('/centro-ayuda', function() {
-        return view('pages.help-center');
+        $eventos = Evento::orderBy('nombre')->get(['id', 'nombre', 'codigo']);
+        return view('pages.help-center', compact('eventos'));
     })->name('help-center');
+    Route::post('/centro-ayuda/ticket', [PublicTicketController::class, 'store'])->name('public.ticket.store');
+    Route::get('/terminos-de-servicio', fn() => view('pages.terms'))->name('terms');
+    Route::get('/politica-de-privacidad', fn() => view('pages.privacy'))->name('privacy');
 });
 
 // Rutas de Autenticación y Panel (Puerto 8080)
@@ -60,6 +66,7 @@ Route::middleware(['restrictPort:admin'])->group(function () {
             Route::get('/tickets', [AdminTicketWebController::class, 'index'])->name('tickets.index');
             Route::get('/tickets/{id}', [AdminTicketWebController::class, 'show'])->name('tickets.show');
             Route::put('/tickets/{id}', [AdminTicketWebController::class, 'update'])->name('tickets.update');
+            Route::delete('/tickets/{id}', [AdminTicketWebController::class, 'destroy'])->name('tickets.destroy');
         });
     });
 });

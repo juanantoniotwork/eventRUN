@@ -18,7 +18,9 @@ class TicketSoporte extends Model
         'nombre',
         'email',
         'asunto',
+        'identificador',
         'mensaje',
+        'adjunto',
         'respuesta',
         'estado',
     ];

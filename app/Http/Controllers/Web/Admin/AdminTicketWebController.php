@@ -46,4 +46,10 @@ class AdminTicketWebController extends Controller
 
         return redirect()->route('admin.tickets.index')->with('success', 'Ticket (Admin) actualizado y email enviado.');
     }
+
+    public function destroy($id)
+    {
+        TicketSoporte::findOrFail($id)->delete();
+        return redirect()->route('admin.tickets.index')->with('success', 'Ticket eliminado.');
+    }
 }

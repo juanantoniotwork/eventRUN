@@ -2,23 +2,23 @@
 
 @section('content')
 <div class="max-w-3xl mx-auto py-4">
-    <div class="mb-6 pb-2 border-b border-gray-200 flex justify-between items-center">
-        <h1 class="text-lg font-bold text-gray-800">ATENCIÓN AL CLIENTE #{{ $ticket->id }}</h1>
-        <a href="{{ route('gestor.tickets.index') }}" class="text-xs text-gray-500 hover:text-black">VOLVER</a>
+    <div class="mb-6 pb-2 border-b border-gray-200 dark:border-slate-700 flex justify-between items-center">
+        <h1 class="text-lg font-bold text-gray-800 dark:text-white">ATENCIÓN AL CLIENTE #{{ $ticket->id }}</h1>
+        <a href="{{ route('gestor.tickets.index') }}" class="text-xs text-gray-500 dark:text-slate-400 hover:text-black dark:hover:text-white">VOLVER</a>
     </div>
 
     <div class="space-y-6 text-sm">
-        <div class="text-gray-600">
-            <p><strong>CARRERA:</strong> {{ $ticket->evento->nombre }}</p>
-            <p><strong>ATLETA:</strong> {{ $ticket->nombre }} ({{ $ticket->email }})</p>
-            <p><strong>ESTADO:</strong> {{ strtoupper($ticket->estado) }}</p>
+        <div class="text-gray-600 dark:text-slate-300">
+            <p><strong class="text-slate-700 dark:text-slate-200">CARRERA:</strong> {{ $ticket->evento->nombre }}</p>
+            <p><strong class="text-slate-700 dark:text-slate-200">ATLETA:</strong> {{ $ticket->nombre }} ({{ $ticket->email }})</p>
+            <p><strong class="text-slate-700 dark:text-slate-200">ESTADO:</strong> {{ strtoupper($ticket->estado) }}</p>
         </div>
 
-        <hr class="border-gray-100">
+        <hr class="border-gray-100 dark:border-slate-700">
 
         <div>
-            <h2 class="text-xs font-bold text-gray-400 mb-2 uppercase">Mensaje Recibido:</h2>
-            <div class="bg-gray-50 p-4 border border-gray-200 rounded">
+            <h2 class="text-xs font-bold text-gray-400 dark:text-slate-500 mb-2 uppercase">Mensaje Recibido:</h2>
+            <div class="bg-gray-50 dark:bg-slate-700/50 p-4 border border-gray-200 dark:border-slate-600 rounded text-gray-800 dark:text-slate-200">
                 {{ $ticket->mensaje }}
             </div>
         </div>
@@ -26,21 +26,22 @@
         <form action="{{ route('gestor.tickets.update', $ticket->id) }}" method="POST" class="space-y-4">
             @csrf
             @method('PUT')
-            
+
             <div>
-                <h2 class="text-xs font-bold text-gray-400 mb-2 uppercase">Responder al Atleta:</h2>
-                <textarea name="respuesta" rows="5" required class="w-full p-2 border border-gray-300 rounded outline-none font-sans">{{ old('respuesta', $ticket->respuesta) }}</textarea>
+                <h2 class="text-xs font-bold text-gray-400 dark:text-slate-500 mb-2 uppercase">Responder al Atleta:</h2>
+                <textarea name="respuesta" rows="5" required
+                    class="w-full p-2 border border-gray-300 dark:border-slate-600 rounded bg-white dark:bg-slate-700 text-slate-800 dark:text-white focus:border-blue-500 outline-none font-sans">{{ old('respuesta', $ticket->respuesta) }}</textarea>
             </div>
 
             <div class="flex items-center gap-4">
                 <div class="flex-1">
-                    <select name="estado" required class="w-full p-2 border border-gray-300 rounded bg-white font-bold">
+                    <select name="estado" required class="w-full p-2 border border-gray-300 dark:border-slate-600 rounded bg-white dark:bg-slate-700 text-slate-800 dark:text-white font-bold">
                         <option value="abierto" {{ $ticket->estado === 'abierto' ? 'selected' : '' }}>ABIERTO</option>
                         <option value="en_proceso" {{ $ticket->estado === 'en_proceso' ? 'selected' : '' }}>EN PROCESO</option>
                         <option value="resuelto" {{ $ticket->estado === 'resuelto' ? 'selected' : '' }}>RESUELTO</option>
                     </select>
                 </div>
-                <button type="submit" class="bg-blue-700 text-white px-6 py-2 rounded font-bold text-xs uppercase tracking-widest hover:bg-blue-800 transition-colors">
+                <button type="submit" class="bg-blue-700 dark:bg-blue-600 text-white px-6 py-2 rounded font-bold text-xs uppercase tracking-widest hover:bg-blue-800 dark:hover:bg-blue-700 transition-colors">
                     Enviar Respuesta
                 </button>
             </div>
