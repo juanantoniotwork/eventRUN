@@ -13,6 +13,7 @@
     </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>tailwind.config = { darkMode: 'class' }</script>
+    @stack('styles')
 </head>
 <body class="bg-gradient-to-br from-blue-50 via-white to-blue-100 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 min-h-screen flex flex-col text-slate-800 dark:text-slate-100 transition-colors duration-300">
     <nav class="bg-white/80 dark:bg-slate-800/80 backdrop-blur-md sticky top-0 z-50 border-b border-blue-100 dark:border-slate-700 shadow-sm transition-colors duration-300">
@@ -35,7 +36,7 @@
                                 {{ __('messages.ticket_management') }}
                                 <span class="ticket-badge-count hidden bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">0</span>
                             </a>
-                            <a href="{{ route('gestor.eventos.index') }}" class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-slate-700 transition-all">{{ __('messages.race_management') }}</a>
+                            <a href="{{ route('admin.eventos.index') }}" class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-slate-700 transition-all">{{ __('messages.race_management') }}</a>
                         @elseif(Auth::user()->role === 'gestor')
                             <a href="{{ url('/gestor/eventos') }}" class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-slate-700 transition-all">{{ __('messages.my_events') }}</a>
                             <a href="{{ url('/gestor/tickets') }}" class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-slate-700 transition-all flex items-center gap-2">

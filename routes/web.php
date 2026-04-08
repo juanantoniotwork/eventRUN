@@ -5,6 +5,7 @@ use App\Http\Controllers\Web\AuthController;
 use App\Http\Controllers\Web\PublicTicketController;
 use App\Http\Controllers\Web\Admin\AdminUsuarioWebController;
 use App\Http\Controllers\Web\Admin\AdminTicketWebController;
+use App\Http\Controllers\Web\Admin\AdminEventoWebController;
 use App\Http\Controllers\Web\Gestor\GestorTicketWebController;
 use App\Models\Evento;
 use Illuminate\Support\Facades\Route;
@@ -61,6 +62,12 @@ Route::middleware(['restrictPort:admin'])->group(function () {
             Route::get('/usuarios/{id}/editar', [AdminUsuarioWebController::class, 'edit'])->name('usuarios.edit');
             Route::put('/usuarios/{id}', [AdminUsuarioWebController::class, 'update'])->name('usuarios.update');
             Route::delete('/usuarios/{id}', [AdminUsuarioWebController::class, 'destroy'])->name('usuarios.destroy');
+
+            // Gestión de Eventos para Admin
+            Route::get('/eventos', [AdminEventoWebController::class, 'index'])->name('eventos.index');
+            Route::get('/eventos/{id}/editar', [AdminEventoWebController::class, 'edit'])->name('eventos.edit');
+            Route::put('/eventos/{id}', [AdminEventoWebController::class, 'update'])->name('eventos.update');
+            Route::delete('/eventos/{id}', [AdminEventoWebController::class, 'destroy'])->name('eventos.destroy');
 
             // Gestión de Tickets para Admin
             Route::get('/tickets', [AdminTicketWebController::class, 'index'])->name('tickets.index');

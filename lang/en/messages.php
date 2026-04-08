@@ -16,6 +16,8 @@ return [
     'terms' => 'Terms of Service',
     'privacy' => 'Privacy Policy',
     'back_to_list' => 'Back to list',
+    'exact_location' => 'Exact location',
+    'back_to_location' => 'Back to location',
     'event_date' => 'Event Date',
     'location' => 'Location',
     'download_rules' => 'Download Rules (PDF)',

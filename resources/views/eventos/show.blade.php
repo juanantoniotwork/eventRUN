@@ -24,16 +24,34 @@
             <p class="text-lg text-gray-700 leading-relaxed mb-8">{{ $evento->descripcion }}</p>
 
             @if($evento->latitud && $evento->longitud)
-                <div class="mb-8 rounded-xl overflow-hidden shadow-inner border border-gray-100">
-                    <iframe 
-                        width="100%" 
-                        height="350" 
-                        frameborder="0" 
-                        style="border:0" 
-                        src="https://www.google.com/maps?q={{ $evento->latitud }},{{ $evento->longitud }}&hl={{ App::getLocale() }};z=14&output=embed" 
-                        allowfullscreen>
-                    </iframe>
+                <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">{{ __('messages.exact_location') }}</p>
+                <div style="position:relative; height:350px; border-radius:12px; overflow:hidden; margin-bottom:24px;">
+                    <div id="evento-map" style="height:100%; width:100%;"></div>
+                    <button id="btn-reset-map" style="position:absolute; bottom:12px; left:12px; z-index:1000; display:flex; align-items:center; gap:6px; background:#2563eb; color:#fff; border:none; border-radius:8px; padding:8px 14px; font-size:12px; font-weight:700; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,0.3);">
+                        <svg style="width:13px;height:13px;flex-shrink:0;" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        </svg>
+                        {{ __('messages.back_to_location') }}
+                    </button>
                 </div>
+                <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+                <script>
+                    var lat = {{ $evento->latitud }};
+                    var lng = {{ $evento->longitud }};
+                    var zoom = 14;
+                    var map = L.map('evento-map').setView([lat, lng], zoom);
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                    }).addTo(map);
+                    L.marker([lat, lng]).addTo(map)
+                        .bindPopup('<strong>{{ addslashes($evento->nombre) }}</strong>')
+                        .openPopup();
+                    document.getElementById('btn-reset-map').onclick = function() {
+                        map.setView([lat, lng], zoom);
+                    };
+                </script>
             @endif
             
             @if($evento->reglamento)

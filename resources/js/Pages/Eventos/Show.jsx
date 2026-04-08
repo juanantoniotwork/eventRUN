@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Head, Link } from '@inertiajs/react';
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -13,6 +13,67 @@ import Footer from '@/components/Footer';
 import AdminBar from '@/components/AdminBar';
 import useDarkMode from '@/lib/useDarkMode';
 import { translations } from '@/lib/translations';
+
+function MapSection({ lat, lng, nombre, t }) {
+    const mapRef = useRef(null);
+    const mapInstanceRef = useRef(null);
+    const ZOOM = 14;
+
+    useEffect(() => {
+        if (mapInstanceRef.current) return;
+
+        import('leaflet').then((L) => {
+            import('leaflet/dist/leaflet.css');
+
+            const map = L.map(mapRef.current).setView([lat, lng], ZOOM);
+            mapInstanceRef.current = map;
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            }).addTo(map);
+
+            const icon = L.icon({
+                iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+                shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+                iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34],
+            });
+
+            L.marker([lat, lng], { icon }).addTo(map)
+                .bindPopup(`<div style="text-align:center;font-weight:700;white-space:nowrap;">${nombre}</div>`)
+                .openPopup();
+        });
+
+        return () => {
+            if (mapInstanceRef.current) {
+                mapInstanceRef.current.remove();
+                mapInstanceRef.current = null;
+            }
+        };
+    }, [lat, lng]);
+
+    const handleReset = () => {
+        if (mapInstanceRef.current) {
+            mapInstanceRef.current.setView([lat, lng], ZOOM);
+        }
+    };
+
+    return (
+        <section className="bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-sm border border-slate-100 dark:border-slate-700">
+            <div className="p-8 md:p-10 border-b border-slate-50 dark:border-slate-700 flex items-center justify-between">
+                <h3 className="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">{t.location_title}</h3>
+                <button
+                    onClick={handleReset}
+                    className="flex items-center gap-2 text-sm font-bold text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors"
+                >
+                    <MapPin className="w-4 h-4" />
+                    {t.back_to_location || 'Volver a la ubicación'}
+                </button>
+            </div>
+            <div ref={mapRef} style={{ height: '384px', width: '100%' }} />
+        </section>
+    );
+}
 
 export default function Show({ evento }) {
     const urlParams = new URLSearchParams(window.location.search);
@@ -153,17 +214,7 @@ export default function Show({ evento }) {
                             )}
 
                             {data.latitud && data.longitud && (
-                                <section className="bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-sm border border-slate-100 dark:border-slate-700">
-                                    <div className="p-8 md:p-10 border-b border-slate-50 dark:border-slate-700">
-                                        <h3 className="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">{t.location_title}</h3>
-                                    </div>
-                                    <div className="h-96 w-full bg-slate-100 dark:bg-slate-700">
-                                        <iframe
-                                            width="100%" height="100%" frameBorder="0" scrolling="no"
-                                            src={`https://www.openstreetmap.org/export/embed.html?bbox=${parseFloat(data.longitud)-0.01}%2C${parseFloat(data.latitud)-0.01}%2C${parseFloat(data.longitud)+0.01}%2C${parseFloat(data.latitud)+0.01}&layer=mapnik&marker=${data.latitud}%2C${data.longitud}`}
-                                        ></iframe>
-                                    </div>
-                                </section>
+                                <MapSection lat={parseFloat(data.latitud)} lng={parseFloat(data.longitud)} nombre={getVal('nombre')} t={t} />
                             )}
                         </div>
 

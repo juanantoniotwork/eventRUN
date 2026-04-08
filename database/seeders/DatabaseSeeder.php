@@ -40,7 +40,7 @@ class DatabaseSeeder extends Seeder
             'nombre' => 'Maratón de Nueva York 2026',
             'descripcion' => 'La carrera más emblemática del mundo a través de los cinco distritos de la Gran Manzana.',
             'fecha' => Carbon::parse('2026-11-01'),
-            'imagen' => 'https://images.unsplash.com/photo-1485871982721-9c44a7a69eda?auto=format&fit=crop&w=800&q=80',
+            'imagen' => 'https://images.pexels.com/photos/378570/pexels-photo-378570.jpeg?auto=compress&cs=tinysrgb&w=800',
             'estado' => 'publicado',
             'reglamento' => "REGLAMENTO OFICIAL TCS NEW YORK CITY MARATHON 2026\n\n" .
                 "1. REQUISITOS DE PARTICIPACIÓN: Los corredores deben tener al menos 18 años el día de la carrera. Es obligatorio presentar una identificación oficial para retirar el dorsal.\n\n" .
@@ -130,7 +130,7 @@ class DatabaseSeeder extends Seeder
             'nombre' => 'Maratón de Chicago 2026',
             'descripcion' => 'Recorre los barrios más icónicos de la "Windy City" en un circuito llano y rápido.',
             'fecha' => Carbon::parse('2026-10-11'),
-            'imagen' => 'https://images.pexels.com/photos/161963/chicago-cityscape-skyscrapers-night-161963.jpeg?auto=compress&cs=tinysrgb&w=800',
+            'imagen' => 'https://images.pexels.com/photos/2190283/pexels-photo-2190283.jpeg?auto=compress&cs=tinysrgb&w=800',
             'estado' => 'publicado',
             'reglamento' => "BANK OF AMERICA CHICAGO MARATHON 2026 RULES\n\n" .
                 "1. PARTICIPACIÓN: Límite de 45,000 participantes. El dorsal debe estar visible en todo momento para acceder a Grant Park.\n\n" .

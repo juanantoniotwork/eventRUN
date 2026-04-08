@@ -16,6 +16,8 @@ return [
     'terms' => 'Términos de Servicio',
     'privacy' => 'Política de Privacidad',
     'back_to_list' => 'Volver al listado',
+    'exact_location' => 'Ubicación exacta',
+    'back_to_location' => 'Volver a la ubicación',
     'event_date' => 'Fecha del evento',
     'location' => 'Ubicación',
     'download_rules' => 'Descargar Reglamento (PDF)',
